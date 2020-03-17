@@ -1,6 +1,7 @@
 # DevOps
 homework/Task1:{</br>
-root dir:  /var/www/html/index.html</br>
+root dir:  </br>
+        /var/www/html/index.html</br>
 default config ports:</br>
     Listen 80 </br>
     <IfModule ssl_module></br>
