@@ -13,7 +13,6 @@ resource "github_branch_protection" "develop" {
 
 
 provider "google" {
-  //profile = "default"
   project = "project_4_vm"
   region  = "europe-west1"
   credentials = file(var.credentials_file_path)
@@ -22,7 +21,7 @@ provider "google" {
 	
 resource "google_compute_instance" "project_4_vm"{
 	name = "tf-project-4-vm"
-	//project = google_project.service_project_4.project_id
+//project = google_project.service_project_4.project_id
 	machine_type = "n1-standard-1"
 	zone = "europe-west1-b"
  boot_disk {	
@@ -32,30 +31,29 @@ resource "google_compute_instance" "project_4_vm"{
  }
  network_interface {
 	network = "default"
-	//network = google_compute_firewall.fwrule.network
+	//network = google_compute_network.fwrule.network
 
 	access_config {
 	   //Ephemeral ip
   	}
  }
 } 
-resource "google_compute_firewall" "fwrule" {
+resource "google_compute_firewall" "default" {
     name    = "allow-ssh-and-icmp" 
-  //
-  network = google_compute_network.fwrule.first_attempt
-  //project = google_compute_network.network.project
+    network = google_compute_network.default.name
+
+//project = google_compute_network.network.project
 
 	  allow {
-	    type = string
-	    protocol = ["icmp","tcp"]
+	    protocol = "icmp, tcp"
 	    ports    = [ "22",
-		         "80, 443",
-		         "3000",
-		         "9090" ]
+		            "80, 443",
+		             "3000",
+		              "9090" ]
 	  }
 }
 resource "google_compute_network" "default" {
-	name = "first attempt"
+	name = "first-attempt"
 }
 
 // count = 2
