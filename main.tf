@@ -1,13 +1,7 @@
-//provider "github" "Develop" {
-//	name = "Develop"
-//	description = "MyRepoForPracticeDevs"
-//	token = "${var.github_token}"
-//	organization = "${var.github_organization}"
-//}
 provider "github"  {
  // name        = "Develop"
  // description = "MyRepoForPracticeDevs"
-  token = var.github_token
+    token = var.github_token
 }
 resource "github_branch_protection" "develop" {
   repository     = "Develop"
@@ -36,45 +30,37 @@ resource "google_compute_instance" "project_4_vm"{
 	  image = "ubuntu-1604-lts"
  	}
  }
-//metadata_startup_script = "VM_NAME=VM1\n${file("scripts/install-vm.sh")}"
- 
-resource "google_compute_firewall" "fwrule" {
-    name    = "allow-ssh-and-icmp" 
-  //
-  network = google_compute_network.fwrule.self_link
-  project = google_compute_network.network.project
-
-  allow {
-    protocol = "icmp"
-  }
-
-  allow {
-    protocol = "tcp"
-    ports    = ["22", "80"]
-  }
-}
-network_interface {
-	//network = "default"
+ network_interface {
+	network = "default"
 	//network = google_compute_firewall.fwrule.network
 
 	access_config {
 	   //Ephemeral ip
   	}
  }
- count = 2
+} 
+resource "google_compute_firewall" "fwrule" {
+    name    = "allow-ssh-and-icmp" 
+  //
+  network = google_compute_network.fwrule.first_attempt
+  //project = google_compute_network.network.project
 
-	//startup-script = file("scripts/install-vm.sh")
-       //metadata_startup_script = "echo ("script for save ip") > /home/ip_address/IP-adds.txt
+	  allow {
+	    type = string
+	    protocol = ["icmp","tcp"]
+	    ports    = [ "22",
+		         "80, 443",
+		         "3000",
+		         "9090" ]
+	  }
+}
+resource "google_compute_network" "default" {
+	name = "first attempt"
 }
 
+// count = 2
 
-//ping learn-1
-//ping learn-2
-//resource "google_compute_firewall" "fwrule"{
-//	name = "fwrule"
-//	network = "default"
-//	allow {
-//	protocol = "tcp"
-//	ports = ["80, 9090"]
-//}
+//startup-script = file("scripts/install-vm.sh")
+//metadata_startup_script = "echo ("script for save ip") > /home/ip_address/IP-adds.txt
 
+////metadata_startup_script = "VM_NAME=VM1\n${file("scripts/install-vm.sh")}"
