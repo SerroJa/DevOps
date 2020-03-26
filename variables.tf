@@ -5,5 +5,8 @@ variable "github_token"{
 variable "credentials_file_path" {
 	description = "1-st way"
 	type = string
-	default = "~/.gcloud/juice-shop-project-8f42062baada.json"
+	default = "f:/DevOps/Terraform/.gcloud/juice-shop-project-8f42062baada.json"
+}
+variable "instance_count" {
+	default = 2	
 }

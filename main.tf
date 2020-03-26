@@ -1,12 +1,13 @@
 provider "github"  {
- // name        = "Develop"
- // description = "MyRepoForPracticeDevs"
-    token = var.github_token
+    organization = "Develop"
+ // description  = "MyRepoForPracticeDevs"
+    token        = var.github_token
+    
 }
 resource "github_branch_protection" "develop" {
-  repository     = "Develop"
-  branch         = "master"
-  enforce_admins = true
+	  repository     = "Develop"
+	  branch         = "master"
+	  enforce_admins = true
 //git config branch.master.pushRemote no_push
 //enable_branch_restrictions = true
 }
@@ -21,7 +22,8 @@ provider "google" {
 	
 resource "google_compute_instance" "project_4_vm"{
 	name = "tf-project-4-vm"
-//project = google_project.service_project_4.project_id
+	count         = var.instance_count
+						//project = google_project.service_project_4.project_id
 	machine_type = "n1-standard-1"
 	zone = "europe-west1-b"
  boot_disk {	
