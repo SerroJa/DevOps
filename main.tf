@@ -5,7 +5,7 @@ resource "github_repository" "develop" {
 	private = true
 }
 resource "github_branch_protection" "develop" {
-	  repository     = "develop"
+	  repository     = var.github_repository.develop.name	  
 	  branch         = "master"
 	  enforce_admins = true
 	
@@ -37,7 +37,7 @@ resource "google_compute_instance" "project-4-vm"{
  }
 } 
 resource "google_compute_firewall" "default" {
-    name    = "allow_ssh_and_icmp" 
+    name    = "allow-ssh-and-icmp" 
     network = google_compute_network.default.name
 
 //project = google_compute_network.network.project
