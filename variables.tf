@@ -1,7 +1,8 @@
-variable "github_token"{
-	description = " used token to access github"
-	default = "Cf3b52708680c9e09169f63219f93edff3d2d5d2"
-}
+//variable "github_token"{
+//	description = " used token to access github"
+//	token = "Cf3b52708680c9e09169f63219f93edff3d2d5d2"
+//
+//}
 variable "credentials_file_path" {
 	description = "1-st way"
 	type = string

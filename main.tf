@@ -1,26 +1,32 @@
-provider "github"  {
-    organization = "Develop"
- // description  = "MyRepoForPracticeDevs"
-    token        = var.github_token
-    
+resource "github_repository" "develop" {
+	name = "develop"
+       // organisation = " DevOpsStudies"
+ 	description  = "MyRepoForPracticeDevs"
+//token       = var.github_token
+    private = true
 }
 resource "github_branch_protection" "develop" {
-	  repository     = "Develop"
+	  repository     = "develop"
 	  branch         = "master"
 	  enforce_admins = true
+	
+	required_status_checks {
+		strict = false
+		contexts = ["ci/travis"]
+	}
 //git config branch.master.pushRemote no_push
 //enable_branch_restrictions = true
 }
 
 
 provider "google" {
-  project = "project_4_vm"
+  project = "project-4-vm"
   region  = "europe-west1"
-  credentials = file(var.credentials_file_path)
+  credentials = var.credentials_file_path
 
 }
 	
-resource "google_compute_instance" "project_4_vm"{
+resource "google_compute_instance" "project-4-vm"{
 	name = "tf-project-4-vm"
 	count         = var.instance_count
 						//project = google_project.service_project_4.project_id
