@@ -1,9 +1,8 @@
 resource "github_repository" "develop" {
 	name = "develop"
-       // organisation = " DevOpsStudies"
+        organisation = " DevOpsStudies"
  	description  = "MyRepoForPracticeDevs"
-//token       = var.github_token
-    private = true
+	private = true
 }
 resource "github_branch_protection" "develop" {
 	  repository     = "develop"
@@ -14,21 +13,12 @@ resource "github_branch_protection" "develop" {
 		strict = false
 		contexts = ["ci/travis"]
 	}
-//git config branch.master.pushRemote no_push
-//enable_branch_restrictions = true
+			//git config branch.master.pushRemote no_push
+			//enable_branch_restrictions = true
 }
-
-
-provider "google" {
-  project = "project-4-vm"
-  region  = "europe-west1"
-  credentials = var.credentials_file_path
-
-}
-	
 resource "google_compute_instance" "project-4-vm"{
 	name = "tf-project-4-vm"
-	count         = var.instance_count
+	count = var.instance_count
 						//project = google_project.service_project_4.project_id
 	machine_type = "n1-standard-1"
 	zone = "europe-west1-b"
@@ -47,7 +37,7 @@ resource "google_compute_instance" "project-4-vm"{
  }
 } 
 resource "google_compute_firewall" "default" {
-    name    = "allow-ssh-and-icmp" 
+    name    = "allow_ssh_and_icmp" 
     network = google_compute_network.default.name
 
 //project = google_compute_network.network.project
@@ -63,8 +53,6 @@ resource "google_compute_firewall" "default" {
 resource "google_compute_network" "default" {
 	name = "first-attempt"
 }
-
-// count = 2
 
 //startup-script = file("scripts/install-vm.sh")
 //metadata_startup_script = "echo ("script for save ip") > /home/ip_address/IP-adds.txt
