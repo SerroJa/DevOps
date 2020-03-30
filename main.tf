@@ -1,11 +1,11 @@
-resource "github_repository" "develop" {
-	name = "develop"
-        organisation = " DevOpsStudies"
- 	description  = "MyRepoForPracticeDevs"
-	private = true
+resource "github_repository" "devs" {
+	name = "mydevs"
+       	description  = "MyRepoForPracticeDevs"
+	private = false
+	auto_init = true
 }
-resource "github_branch_protection" "develop" {
-	  repository     = var.github_repository.develop.name	  
+resource "github_branch_protection" "branch_develop" {
+	  repository     = "${github_repository.devs.name}"	  
 	  branch         = "master"
 	  enforce_admins = true
 	
@@ -16,45 +16,42 @@ resource "github_branch_protection" "develop" {
 			//git config branch.master.pushRemote no_push
 			//enable_branch_restrictions = true
 }
-resource "google_compute_instance" "project-4-vm"{
-	name = "tf-project-4-vm"
-	count = var.instance_count
-						//project = google_project.service_project_4.project_id
+resource "google_compute_instance" "default"{
+	count 	     = var.instance_count
+	name 	     = var.machine_for_project
 	machine_type = "n1-standard-1"
-	zone = "europe-west1-b"
- boot_disk {	
-	initialize_params {	
-	  image = "ubuntu-1604-lts"
+	zone 	     = "europe-west1-c"
+	allow_stopping_for_update = true
+
+	tags 	     = ["web"]
+ 	boot_disk {	
+		initialize_params {	
+		  image = "ubuntu-os-cloud/ubuntu-1604-lts"
+		}
  	}
- }
  network_interface {
-	network = "default"
-	//network = google_compute_network.fwrule.network
-
-	access_config {
-	   //Ephemeral ip
-  	}
+			//network = "default" access_config { Ephemeral ip }
+	network = "${google_compute_network.vpc_network.id}"
  }
-} 
+ metadata_startup_script = "echo 'hostname -I' > /var/www/ip-address.txt"//or path file("scripts/install-vm.sh")? gcloud compute firewall-rules create <rule-name> --allow tcp:9090 --source-tags=<list-of-my-instances-names> --source-ranges=0.0.0.0/0 --description="<my-description-here>"
+}
+ 
 resource "google_compute_firewall" "default" {
-    name    = "allow-ssh-and-icmp" 
-    network = google_compute_network.default.name
+    name    = "${var.network_place}-allow-ssh-and-icmp}"
+    network = "${google_compute_network.vpc_network.id}"
 
-//project = google_compute_network.network.project
-
+	allow {
+		protocol = "icmp"
+	}	  
 	  allow {
-	    protocol = "icmp, tcp"
-	    ports    = [ "22",
-		            "80, 443",
-		             "3000",
-		              "9090" ]
+		 protocol = "tcp"
+		 ports    = [  "80", 
+				"8080",
+				 "3000",
+			           "9090" ]
 	  }
+	source_tags = ["web"]
 }
-resource "google_compute_network" "default" {
-	name = "first-attempt"
+resource "google_compute_network" "vpc_network" {
+	name = "${var.network_place}" // network_id
 }
-
-//startup-script = file("scripts/install-vm.sh")
-//metadata_startup_script = "echo ("script for save ip") > /home/ip_address/IP-adds.txt
-
-////metadata_startup_script = "VM_NAME=VM1\n${file("scripts/install-vm.sh")}"
