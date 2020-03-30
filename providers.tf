@@ -1,13 +1,13 @@
-
 # Configure the GitHub Provider
 provider "github" {
-	token        = var.github_token
-	organization = var.github_organization
+	token        = "${var.github_token}"
+	organization = "${var.github_organization}"
+	//individual = false
 }
 
 provider "google" {
-  project = "project-4-vm"
-  region  = "europe-west1"
-  credentials = var.credentials_file_path
+	  project = "juice-shop-project"
+	  region  = "europe-west1"
+	  credentials = var.credentials_file_path
 
 }
