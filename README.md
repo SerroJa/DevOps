@@ -1,14 +1,13 @@
 # DevOps
-homework/Task1:{</br>
-root dir:  </br>
-        /var/www/html/index.html</br>
-default config ports:</br>
-    Listen 80 </br>
-    <IfModule ssl_module></br>
-          Listen 443 </br>
-      </IfModule> </br>
-     <IfModule mod_gnutls.c> </br>
-          Listen 443 </br>
-      </IfModule> </br>
-         } </br>
-         
+homework/Task1:{
+root dir: 
+        /var/www/html/index.html
+default config ports:
+    Listen 80
+    <IfModule ssl_module>
+          Listen 443
+      </IfModule>
+     <IfModule mod_gnutls.c>
+          Listen 443
+      </IfModule>
+         }
