@@ -1,1 +1,1 @@
-Here are the terraform configuration files
+Terraform configuration files
