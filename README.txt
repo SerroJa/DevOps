@@ -1,1 +1,1 @@
-"This is terrafom config files" 
+Here are the terraform configuration files
