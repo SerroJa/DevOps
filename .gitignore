@@ -11,6 +11,8 @@
 /node_modules
 # .git
 /.git
+#terraform files
+/terraform.exe
 
 # profiling files
 chrome-profiler-events.json
